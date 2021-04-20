@@ -1,0 +1,6 @@
+/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary/bin/Debug/VendingMachineLibrary.dll
+/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary/bin/Debug/VendingMachineLibrary.pdb
+/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary/obj/Debug/VendingMachineLibrary.csprojAssemblyReference.cache
+/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary/obj/Debug/VendingMachineLibrary.csproj.CoreCompileInputs.cache
+/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary/obj/Debug/VendingMachineLibrary.dll
+/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary/obj/Debug/VendingMachineLibrary.pdb

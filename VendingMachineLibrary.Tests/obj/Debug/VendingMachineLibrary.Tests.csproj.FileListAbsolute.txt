@@ -1,0 +1,11 @@
+/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary.Tests/obj/Debug/VendingMachineLibrary.Tests.csprojAssemblyReference.cache
+/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary.Tests/obj/Debug/VendingMachineLibrary.Tests.csproj.CoreCompileInputs.cache
+/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary.Tests/bin/Debug/VendingMachineLibrary.Tests.dll
+/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary.Tests/bin/Debug/VendingMachineLibrary.Tests.pdb
+/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary.Tests/bin/Debug/nunit.framework.dll
+/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary.Tests/bin/Debug/VendingMachineLibrary.dll
+/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary.Tests/bin/Debug/VendingMachineLibrary.pdb
+/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary.Tests/bin/Debug/nunit.framework.xml
+/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary.Tests/obj/Debug/VendingMachineLibrary.Tests.csproj.CopyComplete
+/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary.Tests/obj/Debug/VendingMachineLibrary.Tests.dll
+/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary.Tests/obj/Debug/VendingMachineLibrary.Tests.pdb
