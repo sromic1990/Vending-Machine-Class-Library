@@ -51,7 +51,7 @@ namespace VendingMachineLibrary.Tests.Library
         {
             SimpleWallet wallet = new SimpleWallet();
             var exception = Assert.Throws<SubtractionFromLesserQuantity>(() => { wallet.Subtract(10);});
-            Assert.That(() => exception.Message, Does.Contain("Existing amount is less than subtracting amount"));
+            Assert.That(exception.GetType() == typeof(SubtractionFromLesserQuantity));
         }
 
         [Test]

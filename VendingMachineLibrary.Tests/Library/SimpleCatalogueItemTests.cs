@@ -57,7 +57,7 @@ namespace VendingMachineLibrary.Tests.Library
             {
                 catalogueItem.Add(item2);
             });
-            Assert.That(() => exception.Message, Does.Contain("is not matching with container of"));
+            Assert.That(exception.GetType() == typeof(ItemMismatchException));
         }
 
         [Test]
@@ -96,6 +96,49 @@ namespace VendingMachineLibrary.Tests.Library
             catalogueItem.Add(item1, addQuantity);
             catalogueItem.SubtractItem(subtractQuantity);
             Assert.That(catalogueItem.Quantity.Equals(result));
+        }
+
+        [Test]
+        public void Subtract_Item_From_Empty_List()
+        {
+            SimpleCatalogueItem catalogueItem = new SimpleCatalogueItem();
+            FakeItem1 item1 = new FakeItem1();
+            
+            var exception = Assert.Throws<EmptyContainerException>(() =>
+            {
+                catalogueItem.SubtractItem(item1);
+            });
+            Assert.That(exception.GetType() == typeof(EmptyContainerException));
+        }
+
+        [Test]
+        public void Subtract_Item_From_List_Not_Containing_Item()
+        {
+            SimpleCatalogueItem catalogueItem = new SimpleCatalogueItem();
+            FakeItem1 item1 = new FakeItem1();
+            catalogueItem.Add(item1);
+
+            FakeItem1 item2 = new FakeItem1();
+            var exception = Assert.Throws<ItemNotFoundException>(() =>
+            {
+                catalogueItem.SubtractItem(item2);
+            });
+            Assert.That(exception.GetType() == typeof(ItemNotFoundException));
+        }
+
+        [Test]
+        public void Subtract_Item_From_list_Containing_Item()
+        {
+            SimpleCatalogueItem catalogueItem = new SimpleCatalogueItem();
+            FakeItem1 item1 = new FakeItem1();
+            catalogueItem.Add(item1);
+
+            FakeItem1 item2 = new FakeItem1();
+            catalogueItem.Add(item2);
+
+            IItem item = catalogueItem.SubtractItem(item2);
+            
+            Assert.That(item == item2);
         }
     }
 

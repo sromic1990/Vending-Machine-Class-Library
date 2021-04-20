@@ -58,6 +58,31 @@ namespace VendingMachineLibrary.Library
             }
         }
 
+        public IItem SubtractItem(IItem item)
+        {
+            if (_items == null || _items.Count == 0)
+            {
+                throw new EmptyContainerException();
+            }
+            
+            if (!_items.Contains(item))
+            {
+                throw new ItemNotFoundException();
+            }
+            else
+            {
+                int index = GetItemIndex(item);
+                IItem returningItem = _items[index];
+                _items.RemoveAt(index);
+                return returningItem;
+            }
+        }
+
+        private int GetItemIndex(IItem item)
+        {
+            return _items.FindIndex(a => a == item);
+        }
+
         private void AddItem(IItem item, int quantity)
         {
             for (int i = 0; i < quantity; i++)
