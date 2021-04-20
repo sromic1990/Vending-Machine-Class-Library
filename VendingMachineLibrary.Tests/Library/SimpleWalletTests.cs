@@ -8,42 +8,42 @@ namespace VendingMachineLibrary.Tests.Library
     public class SimpleWalletTests
     {
         [Test]
-        public void Add_In_Amount_Raises_Event()
+        public void Add_In_Balance_Raises_Event()
         {
             SimpleWallet wallet = new SimpleWallet();
-            decimal walletAmount = 0;
-            wallet.WalletValueChanged += amount => { walletAmount = amount;}; 
+            decimal walletBalance = 0;
+            wallet.WalletValueChanged += Balance => { walletBalance = Balance;}; 
             
             wallet.Add(10);
             
-            Assert.That(walletAmount.Equals(10));
+            Assert.That(walletBalance.Equals(10));
         }
         
         [Test]
-        public void Subtract_From_Amount_Raises_Event()
+        public void Subtract_From_Balance_Raises_Event()
         {
             SimpleWallet wallet = new SimpleWallet();
-            decimal walletAmount = 0;
+            decimal walletBalance = 0;
             wallet.Add(10);
-            wallet.WalletValueChanged += amount => { walletAmount = amount;};
+            wallet.WalletValueChanged += Balance => { walletBalance = Balance;};
             wallet.Subtract(5);
             
-            Assert.That(walletAmount.Equals(5));
+            Assert.That(walletBalance.Equals(5));
         }
         
         [Test]
         [TestCase(0, 10)]
         [TestCase(10, 10)]
-        public void Add_To_Wallet(decimal initialAmount, decimal additionAmount)
+        public void Add_To_Wallet(decimal initialBalance, decimal additionBalance)
         {
             SimpleWallet wallet = new SimpleWallet();
-            wallet.Add(initialAmount);
-            decimal walletContentsPrevious = wallet.Amount;
-            wallet.Add(additionAmount);
-            decimal walletContentNext = wallet.Amount;
+            wallet.Add(initialBalance);
+            decimal walletContentsPrevious = wallet.Balance;
+            wallet.Add(additionBalance);
+            decimal walletContentNext = wallet.Balance;
             decimal difference = walletContentNext - walletContentsPrevious;
             
-            Assert.That(difference.Equals(additionAmount));
+            Assert.That(difference.Equals(additionBalance));
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace VendingMachineLibrary.Tests.Library
             SimpleWallet wallet = new SimpleWallet();
             wallet.Add(20);
             wallet.Subtract(10);
-            Assert.IsTrue(wallet.Amount > 0);
+            Assert.IsTrue(wallet.Balance > 0);
         }
         
         [Test]
@@ -69,7 +69,7 @@ namespace VendingMachineLibrary.Tests.Library
             SimpleWallet wallet = new SimpleWallet();
             wallet.Add(20);
             wallet.Subtract(20);
-            Assert.That(wallet.Amount.Equals(0));
+            Assert.That(wallet.Balance.Equals(0));
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace VendingMachineLibrary.Tests.Library
             SimpleWallet wallet = new SimpleWallet();
             wallet.Add(initialValue);
             wallet.Subtract(finalValue);
-            Assert.That(result.Equals(wallet.Amount));
+            Assert.That(result.Equals(wallet.Balance));
         }
     }
 }

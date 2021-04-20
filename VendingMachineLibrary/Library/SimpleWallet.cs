@@ -7,35 +7,35 @@ namespace VendingMachineLibrary.Library
     public class SimpleWallet : IWallet
     {
         public Action<decimal> WalletValueChanged { get; set; }
-        private decimal _amount;
-        public decimal Amount
+        private decimal _balance;
+        public decimal Balance
         {
-            get { return _amount;}
+            get { return _balance;}
             private set
             {
-                _amount = value;    
-                WalletValueChanged?.Invoke(Amount);
+                _balance = value;    
+                WalletValueChanged?.Invoke(Balance);
             }
         }
         
         public SimpleWallet()
         {
-            Amount = 0;
+            Balance = 0;
         }
 
         public void Add(decimal value)
         {
-            Amount += value;
+            Balance += value;
         }
 
         public void Subtract(decimal value)
         {
-            if (Amount < value)
+            if (Balance < value)
             {
                 throw new SubtractionFromLesserQuantity(value);
             }
 
-            Amount -= value;
+            Balance -= value;
         }
     }
 }
