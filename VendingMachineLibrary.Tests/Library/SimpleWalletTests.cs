@@ -1,4 +1,6 @@
+using System;
 using NUnit.Framework;
+using VendingMachineLibrary.Abstracts;
 using VendingMachineLibrary.Exceptions;
 using VendingMachineLibrary.Library;
 
@@ -12,8 +14,9 @@ namespace VendingMachineLibrary.Tests.Library
         {
             SimpleWallet wallet = new SimpleWallet();
             decimal walletBalance = 0;
-            wallet.WalletValueChanged += Balance => { walletBalance = Balance;}; 
-            
+            IVendingMachineInternal machineInternal = new FakeVendingMachineInternal();
+            wallet.Init(machineInternal);
+            ((IVendingMachineExternal)machineInternal).WalletValueChanged += balance => { walletBalance = balance;};
             wallet.Add(10);
             
             Assert.That(walletBalance.Equals(10));
@@ -25,7 +28,9 @@ namespace VendingMachineLibrary.Tests.Library
             SimpleWallet wallet = new SimpleWallet();
             decimal walletBalance = 0;
             wallet.Add(10);
-            wallet.WalletValueChanged += Balance => { walletBalance = Balance;};
+            IVendingMachineInternal machineInternal = new FakeVendingMachineInternal();
+            wallet.Init(machineInternal);
+            ((IVendingMachineExternal)machineInternal).WalletValueChanged += balance => { walletBalance = balance;};
             wallet.Subtract(5);
             
             Assert.That(walletBalance.Equals(5));
@@ -38,9 +43,9 @@ namespace VendingMachineLibrary.Tests.Library
         {
             SimpleWallet wallet = new SimpleWallet();
             wallet.Add(initialBalance);
-            decimal walletContentsPrevious = wallet.Balance;
+            decimal walletContentsPrevious = wallet.GetBalance();
             wallet.Add(additionBalance);
-            decimal walletContentNext = wallet.Balance;
+            decimal walletContentNext = wallet.GetBalance();
             decimal difference = walletContentNext - walletContentsPrevious;
             
             Assert.That(difference.Equals(additionBalance));
@@ -60,7 +65,7 @@ namespace VendingMachineLibrary.Tests.Library
             SimpleWallet wallet = new SimpleWallet();
             wallet.Add(20);
             wallet.Subtract(10);
-            Assert.IsTrue(wallet.Balance > 0);
+            Assert.IsTrue(wallet.GetBalance() > 0);
         }
         
         [Test]
@@ -69,7 +74,7 @@ namespace VendingMachineLibrary.Tests.Library
             SimpleWallet wallet = new SimpleWallet();
             wallet.Add(20);
             wallet.Subtract(20);
-            Assert.That(wallet.Balance.Equals(0));
+            Assert.That(wallet.GetBalance().Equals(0));
         }
 
         [Test]
@@ -79,7 +84,22 @@ namespace VendingMachineLibrary.Tests.Library
             SimpleWallet wallet = new SimpleWallet();
             wallet.Add(initialValue);
             wallet.Subtract(finalValue);
-            Assert.That(result.Equals(wallet.Balance));
+            Assert.That(result.Equals(wallet.GetBalance()));
+        }
+    }
+
+    public class FakeVendingMachineInternal : IVendingMachineInternal, IVendingMachineExternal
+    {
+        public Action<decimal> WalletValueChanged { get; set; }
+        public Action<ICatalogue> CatalogueValueChanged { get; set; }
+        public void CatalogueChanged(ICatalogue currentCatalogue)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void WalletChanged(decimal currentValue)
+        {
+            WalletValueChanged?.Invoke(currentValue);
         }
     }
 }

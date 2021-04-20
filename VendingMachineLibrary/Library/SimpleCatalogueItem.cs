@@ -30,7 +30,7 @@ namespace VendingMachineLibrary.Library
                 }
                 else
                 {
-                    throw new ItemMismatchException(containerItem, item);
+                    throw new ItemMismatchException();
                 }
                 
             }
@@ -75,6 +75,23 @@ namespace VendingMachineLibrary.Library
                 IItem returningItem = _items[index];
                 _items.RemoveAt(index);
                 return returningItem;
+            }
+        }
+
+        public bool Equals(IItem item)
+        {
+            if (_items == null || _items.Count == 0)
+            {
+                throw new EmptyContainerException();
+            }
+
+            if (_items.Contains(item))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 

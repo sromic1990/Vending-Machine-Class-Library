@@ -140,6 +140,37 @@ namespace VendingMachineLibrary.Tests.Library
             
             Assert.That(item == item2);
         }
+
+        [Test]
+        public void Equals_On_Empty_List()
+        {
+            ICatalogueItem item = new SimpleCatalogueItem();
+            FakeItem1 fake = new FakeItem1();
+            var exception = Assert.Throws<EmptyContainerException>(() =>
+            {
+                item.Equals(fake);
+            });
+            Assert.That(exception.GetType() == typeof(EmptyContainerException));
+        }
+
+        [Test]
+        public void Equals_Missing_Item()
+        {
+            ICatalogueItem item = new SimpleCatalogueItem();
+            FakeItem1 fake1 = new FakeItem1();
+            item.Add(fake1);
+            FakeItem2 fake2 = new FakeItem2();
+            Assert.That(item.Equals(fake2).Equals(false));
+        }
+        
+        [Test]
+        public void Equals_Item_Found()
+        {
+            ICatalogueItem item = new SimpleCatalogueItem();
+            FakeItem1 fake1 = new FakeItem1();
+            item.Add(fake1);
+            Assert.That(item.Equals(fake1).Equals(true));
+        }
     }
 
     public class FakeItem1 : IItem

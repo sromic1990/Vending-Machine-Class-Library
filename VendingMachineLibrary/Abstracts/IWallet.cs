@@ -1,9 +1,8 @@
 namespace VendingMachineLibrary.Abstracts
 {
-    public interface IWallet
+    public interface IWallet : IVendingMachineComponent
     {
-        System.Action<decimal> WalletValueChanged { get; set; }
-        decimal Balance { get; }
+        decimal GetBalance();
         void Add(decimal value);
         void Subtract(decimal value);
 

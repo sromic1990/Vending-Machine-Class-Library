@@ -1,4 +1,3 @@
-using System;
 using VendingMachineLibrary.Abstracts;
 using VendingMachineLibrary.Exceptions;
 
@@ -6,21 +5,32 @@ namespace VendingMachineLibrary.Library
 {
     public class SimpleWallet : IWallet
     {
-        public Action<decimal> WalletValueChanged { get; set; }
+        private IVendingMachineInternal _vendingMachineInternal;
+        
         private decimal _balance;
-        public decimal Balance
+        private decimal Balance
         {
-            get { return _balance;}
-            private set
+            get => _balance;
+            set
             {
-                _balance = value;    
-                WalletValueChanged?.Invoke(Balance);
+                _balance = value;
+                _vendingMachineInternal?.WalletChanged(_balance);
             }
         }
         
         public SimpleWallet()
         {
             Balance = 0;
+        }
+
+        public void Init(IVendingMachineInternal vendingMachineInternal)
+        {
+            _vendingMachineInternal = vendingMachineInternal;
+        }
+
+        public decimal GetBalance()
+        {
+            return Balance;
         }
 
         public void Add(decimal value)
