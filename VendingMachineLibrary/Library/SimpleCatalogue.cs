@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using VendingMachineLibrary.Abstracts;
+using VendingMachineLibrary.Dependency;
 using VendingMachineLibrary.Exceptions;
 
 namespace VendingMachineLibrary.Library
@@ -35,17 +36,27 @@ namespace VendingMachineLibrary.Library
 
         public List<ICatalogueItem> GetCatalogueItems()
         {
-            throw new System.NotImplementedException();
+            return Items;
         }
 
         public void AddItem(IItem item)
         {
-            throw new System.NotImplementedException();
+            if (Items.Count == 0 || !ContainsItem(item))
+            {
+                ICatalogueItem catalogueItem = VendingMachineDependency.GetBlankItem();
+                catalogueItem.Add(item);
+                AddItem(catalogueItem);
+            }
+            else
+            {
+                int index = GetItemIndex(item);
+                Items[index].Add(item);
+            }
         }
 
         public void AddItem(ICatalogueItem item)
         {
-            throw new System.NotImplementedException();
+            Items.Add(item);
         }
 
         public IItem SubtractItem(IItem item)
@@ -60,19 +71,27 @@ namespace VendingMachineLibrary.Library
 
         public bool ContainsItem(IItem item)
         {
-            if (_items == null || _items.Count == 0)
+            if (Items == null || Items.Count == 0)
             {
                 throw new EmptyContainerException();
             }
 
-            for (int i = 0; i < _items.Count; i++)
+            for (int i = 0; i < Items.Count; i++)
             {
-                if (_items[i].Equals(item))
+                if (Items[i].Quantity > 0)
                 {
-                    return true;
+                    if (Items[i].Equals(item))
+                    {
+                        return true;
+                    }
                 }
             }
             return false;
+        }
+
+        private int GetItemIndex(IItem item)
+        {
+            return _items.FindIndex(a => a.GetItemType() == item.GetType().Name);
         }
     }
 }

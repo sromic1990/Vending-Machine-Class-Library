@@ -10,5 +10,6 @@ namespace VendingMachineLibrary.Abstracts
         List<IItem> SubtractItem(int quantity = 1);
         IItem SubtractItem(IItem item);
         bool Equals(IItem item);
+        string GetItemType();
     }
 }

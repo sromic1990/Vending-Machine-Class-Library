@@ -6,7 +6,7 @@ namespace VendingMachineLibrary.Library
 {
     public class SimpleCatalogueItem : ICatalogueItem
     {
-        private List<IItem> _items;
+        private readonly List<IItem> _items;
         public List<IItem> Items => _items;
         public int Quantity => Items.Count;
 
@@ -17,7 +17,7 @@ namespace VendingMachineLibrary.Library
         
         public void Add(IItem item, int quantity = 1)
         {
-            if (_items.Count == 0)
+            if (Items.Count == 0)
             {
                 AddItem(item, quantity);
             }
@@ -52,7 +52,7 @@ namespace VendingMachineLibrary.Library
 
                 for (int i = 0; i < quantity; i++)
                 {
-                    _items.Remove(items[i]);
+                    Items.Remove(items[i]);
                 }
                 return items;
             }
@@ -60,12 +60,12 @@ namespace VendingMachineLibrary.Library
 
         public IItem SubtractItem(IItem item)
         {
-            if (_items == null || _items.Count == 0)
+            if (Items == null || Items.Count == 0)
             {
                 throw new EmptyContainerException();
             }
             
-            if (!_items.Contains(item))
+            if (!Items.Contains(item))
             {
                 throw new ItemNotFoundException();
             }
@@ -73,19 +73,19 @@ namespace VendingMachineLibrary.Library
             {
                 int index = GetItemIndex(item);
                 IItem returningItem = _items[index];
-                _items.RemoveAt(index);
+                Items.RemoveAt(index);
                 return returningItem;
             }
         }
 
         public bool Equals(IItem item)
         {
-            if (_items == null || _items.Count == 0)
+            if (Items == null || Items.Count == 0)
             {
                 throw new EmptyContainerException();
             }
 
-            if (_items.Contains(item))
+            if (Items.Contains(item))
             {
                 return true;
             }
@@ -95,16 +95,25 @@ namespace VendingMachineLibrary.Library
             }
         }
 
+        public string GetItemType()
+        {
+            if (Items == null || Items.Count == 0)
+            {
+                throw new EmptyContainerException();
+            }
+            return Items[0].GetType().Name;
+        }
+
         private int GetItemIndex(IItem item)
         {
-            return _items.FindIndex(a => a == item);
+            return Items.FindIndex(a => a == item);
         }
 
         private void AddItem(IItem item, int quantity)
         {
             for (int i = 0; i < quantity; i++)
             {
-                _items.Add(item);
+                Items.Add(item);
             }
         }
     }
