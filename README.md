@@ -1,10 +1,13 @@
 # Vending-Machine-Class-Library
 
-#ASSIGNMENT  
+TDD C# class library creation practice
+
+
+# ASSIGNMENT  
 Design and implement a vending machine class library. 
 Make it as clean as you can. Make it as production ready and maintainable as you can.   
 
-#REQUIRED FEATURES  
+# REQUIRED FEATURES  
 - Vending machine has a catalogue of items 
 - Items can have different prices 
 - Vending machines can have different catalogue 
@@ -14,10 +17,11 @@ Make it as clean as you can. Make it as production ready and maintainable as you
 - Some items are drinks 
 - Some items are weapons 
 - Vending machine has debug logging 
-- As a developer I can inject different type of logger implementation to the vending machine class  - 
+- As a developer I can inject different type of logger implementation to the vending machine class 
 
 (Pick one):   
 - Tests with NUnit   
 - Tests with SpecFlow in Gherkin syntax   
 
-#CONSTRAINTS  - Must be .Net or .Net Core
+# CONSTRAINTS  
+- Must be .Net or .Net Core
