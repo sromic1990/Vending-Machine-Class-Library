@@ -17,7 +17,7 @@ Make it as clean, maintainable and production ready as possible.
 - Some items are drinks 
 - Some items are weapons 
 - Vending machine has debug logging 
-- As a developer I can inject different type of logger implementation to the vending machine class 
+- As a developer it may be possible to inject different type of logger implementation to the vending machine class 
 
 # TESTING
 - Tests with NUnit
