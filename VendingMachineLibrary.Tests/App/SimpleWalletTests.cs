@@ -50,7 +50,8 @@ namespace VendingMachineLibrary.Tests.App
         public void Subtract_From_Empty_Wallet()
         {
             SimpleWallet wallet = new SimpleWallet();
-            Assert.That(() => wallet.Subtract(10), Throws.Exception.TypeOf<InsufficientBalanceException>());
+            var exception = Assert.Throws<InsufficientBalanceException>(() => { wallet.Subtract(10);});
+            Assert.That(() => exception.Message, Does.Contain("Wallet balance is less than supplied amount"));
         }
 
         [Test]
