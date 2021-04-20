@@ -10,10 +10,8 @@
 /Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary.Tests/obj/Debug/VendingMachineLibrary.Tests.dll
 /Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary.Tests/obj/Debug/VendingMachineLibrary.Tests.pdb
 /Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary.Tests/bin/Debug/Castle.Core.dll
-/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary.Tests/bin/Debug/Moq.dll
 /Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary.Tests/bin/Debug/System.Runtime.CompilerServices.Unsafe.dll
 /Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary.Tests/bin/Debug/System.Threading.Tasks.Extensions.dll
 /Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary.Tests/bin/Debug/Castle.Core.xml
-/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary.Tests/bin/Debug/Moq.xml
 /Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary.Tests/bin/Debug/System.Runtime.CompilerServices.Unsafe.xml
 /Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary.Tests/bin/Debug/System.Threading.Tasks.Extensions.xml
