@@ -2,7 +2,7 @@ using System;
 using VendingMachineLibrary.Abstracts;
 using VendingMachineLibrary.Exceptions;
 
-namespace VendingMachineLibrary.App
+namespace VendingMachineLibrary.Library
 {
     public class SimpleWallet : IWallet
     {

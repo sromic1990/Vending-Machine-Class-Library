@@ -1,5 +1,5 @@
 using VendingMachineLibrary.Abstracts;
-using VendingMachineLibrary.App;
+using VendingMachineLibrary.Library;
 
 namespace VendingMachineLibrary.Dependency
 {

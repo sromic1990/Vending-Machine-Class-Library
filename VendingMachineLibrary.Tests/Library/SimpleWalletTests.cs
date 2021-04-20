@@ -1,8 +1,8 @@
 using NUnit.Framework;
-using VendingMachineLibrary.App;
 using VendingMachineLibrary.Exceptions;
+using VendingMachineLibrary.Library;
 
-namespace VendingMachineLibrary.Tests.App
+namespace VendingMachineLibrary.Tests.Library
 {
     [TestFixture]
     public class SimpleWalletTests
@@ -20,7 +20,7 @@ namespace VendingMachineLibrary.Tests.App
         }
         
         [Test]
-        public void Subtract_In_Amount_Raises_Event()
+        public void Subtract_From_Amount_Raises_Event()
         {
             SimpleWallet wallet = new SimpleWallet();
             decimal walletAmount = 0;
