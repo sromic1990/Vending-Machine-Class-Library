@@ -1,4 +1,4 @@
-# Vending-Machine-Class-Library
+# Vending Machine Class Library - TDD PRACTICE C# 7.0, .NET 4.5 NUnit JetBrains Rider 2021.1.1
 
 TDD C# class library creation practice
 
