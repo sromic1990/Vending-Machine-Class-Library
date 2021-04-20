@@ -5,7 +5,7 @@ TDD C# class library creation practice
 
 # ASSIGNMENT  
 Design and implement a vending machine class library. 
-Make it as clean as you can. Make it as production ready and maintainable as you can.   
+Make it as clean, maintainable and production ready as possible.
 
 # REQUIRED FEATURES  
 - Vending machine has a catalogue of items 
@@ -19,9 +19,8 @@ Make it as clean as you can. Make it as production ready and maintainable as you
 - Vending machine has debug logging 
 - As a developer I can inject different type of logger implementation to the vending machine class 
 
-(Pick one):   
-- Tests with NUnit   
-- Tests with SpecFlow in Gherkin syntax   
+# TESTING
+- Tests with NUnit
 
 # CONSTRAINTS  
 - Must be .Net or .Net Core
