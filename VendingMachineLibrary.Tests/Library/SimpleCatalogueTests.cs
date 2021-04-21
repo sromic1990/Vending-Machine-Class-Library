@@ -129,12 +129,12 @@ namespace VendingMachineLibrary.Tests.Library
             ICatalogue catalogue = new SimpleCatalogue();
             IItem fakeItem = new FakeItem();
 
-            var exception = Assert.Throws<ItemMismatchException>(() =>
+            var exception = Assert.Throws<EmptyContainerException>(() =>
             {
                 catalogue.SubtractItem(10);
             });
             
-            Assert.That(exception.GetType() == typeof(ItemMismatchException));
+            Assert.That(exception.GetType() == typeof(EmptyContainerException));
         }
 
         [Test]
@@ -261,7 +261,7 @@ namespace VendingMachineLibrary.Tests.Library
             ICatalogue catalogue = new SimpleCatalogue();
             var exception = Assert.Throws<ItemMismatchException>(() =>
             {
-                catalogue.SubtractItem(2, 200);
+                catalogue.SubtractItems(2, 200);
             });
             Assert.That(exception.GetType() == typeof(ItemMismatchException));
         }
@@ -274,7 +274,7 @@ namespace VendingMachineLibrary.Tests.Library
             catalogue.AddItem(item);
             var exception = Assert.Throws<SubtractionFromLesserQuantityException>(() =>
             {
-                catalogue.SubtractItem(0, 200);
+                catalogue.SubtractItems(0, 200);
             });
             Assert.That(exception.GetType() == typeof(SubtractionFromLesserQuantityException));
         }
@@ -289,7 +289,7 @@ namespace VendingMachineLibrary.Tests.Library
             {
                 catalogue.AddItem(item);
             }
-            List<IItem> items = catalogue.SubtractItem(0, subtractQuantity);
+            List<IItem> items = catalogue.SubtractItems(0, subtractQuantity);
             Assert.That(items.Count.Equals(result));
         }
         
@@ -305,7 +305,7 @@ namespace VendingMachineLibrary.Tests.Library
             }
 
             int itemCount = catalogue.GetItemsCount(item);
-            List<IItem> items = catalogue.SubtractItem(0, subtractQuantity);
+            List<IItem> items = catalogue.SubtractItems(0, subtractQuantity);
             int itemCountNew = catalogue.GetItemsCount(item);
             int difference = itemCount - itemCountNew;
             Assert.That(difference.Equals(result));
@@ -358,12 +358,7 @@ namespace VendingMachineLibrary.Tests.Library
             ICatalogue catalogue = new SimpleCatalogue();
             IItem item = new FakeItem();
 
-            var exception = Assert.Throws<EmptyContainerException>(() =>
-            {
-                catalogue.ItemsThatCanBeBought(item, 100);
-            });
-            
-            Assert.That(exception.GetType() == typeof(EmptyContainerException));
+            Assert.That(catalogue.ItemsThatCanBeBought(item, 100).Equals(0));
         }
         
         [Test]
@@ -374,12 +369,41 @@ namespace VendingMachineLibrary.Tests.Library
             IItem item2 = new FakeItemWithPrice();
             catalogue.AddItem(item);
 
-            var exception = Assert.Throws<ItemMismatchException>(() =>
-            {
-                catalogue.ItemsThatCanBeBought(item2, 100);
-            });
-            
-            Assert.That(exception.GetType() == typeof(ItemMismatchException));
+            Assert.That(catalogue.ItemsThatCanBeBought(item2, 100).Equals(0));
+        }
+
+        [Test]
+        public void Try_To_Get_Items_That_Can_Be_Bought_From_Empty_Catalogue()
+        {
+            ICatalogue catalogue = new SimpleCatalogue();
+            IItem item = new FakeItem();
+            Assert.That(catalogue.ItemsThatCanBeBought(item, 100).Equals(0));
+        }
+        
+        [Test]
+        public void Try_To_Get_Items_That_Can_Be_Bought_From_Catalogue_Not_Having_It()
+        {
+            ICatalogue catalogue = new SimpleCatalogue();
+            IItem item = new FakeItem();
+            catalogue.AddItem(item);
+            IItem item2 = new FakeItemWithPrice();
+            Assert.That(catalogue.ItemsThatCanBeBought(item2, 100).Equals(0));
+        }
+        
+        [Test]
+        public void Try_To_Get_Items_That_Can_Be_Bought_By_Index_From_Empty_Catalogue()
+        {
+            ICatalogue catalogue = new SimpleCatalogue();
+            Assert.That(catalogue.ItemsThatCanBeBought(0, 100).Equals(0));
+        }
+        
+        [Test]
+        public void Try_To_Get_Items_That_Can_Be_Bought_By_Index_From_Catalogue_Not_Having_It()
+        {
+            ICatalogue catalogue = new SimpleCatalogue();
+            IItem item = new FakeItem();
+            catalogue.AddItem(item);
+            Assert.That(catalogue.ItemsThatCanBeBought(1, 100).Equals(0));
         }
         
         [Test]
@@ -399,6 +423,26 @@ namespace VendingMachineLibrary.Tests.Library
             int canBePurchased = catalogue.ItemsThatCanBeBought(fakeItem ,amount);
             Assert.That(canBePurchased.Equals(purchasableAmount));
         }
+        
+        [Test]
+        [TestCase(100, 1, 0)]
+        [TestCase(100, -1, 0)]
+        [TestCase(100, 100, 10)]
+        [TestCase(100, 1000000, 100)]
+        [TestCase(100, 1000, 100)]
+        public void Get_Existing_Items_By_Index_That_Can_Be_Bought(int initialAmount, decimal amount, int purchasableAmount)
+        {
+            ICatalogue catalogue = new SimpleCatalogue();
+            IItem fakeItem = new FakeItemWithPrice();
+            for (int i = 0; i < initialAmount; i++)
+            {
+                catalogue.AddItem(fakeItem);
+            }
+
+            int index = catalogue.GetItemIndex(fakeItem);
+            int canBePurchased = catalogue.ItemsThatCanBeBought(index ,amount);
+            Assert.That(canBePurchased.Equals(purchasableAmount));
+        }
 
         [Test]
         [TestCase(100, 1000)]
@@ -415,7 +459,7 @@ namespace VendingMachineLibrary.Tests.Library
             }
             IItem fakeItem2 = new FakeItem();
             catalogue.AddItem(fakeItem2);
-            decimal price = catalogue.PriceOfAllItems(fakeItem1);
+            decimal price = catalogue.GetPriceOfAllItemsOfType(fakeItem1);
             
             Assert.That(price.Equals(finalPrice));
         }
@@ -425,7 +469,7 @@ namespace VendingMachineLibrary.Tests.Library
         {
             ICatalogue catalogue = new SimpleCatalogue();
             IItem fakeItem1 = new FakeItemWithPrice();
-            decimal price = catalogue.PriceOfAllItems(fakeItem1);
+            decimal price = catalogue.GetPriceOfAllItemsOfType(fakeItem1);
             Assert.That(price.Equals(0));
         }
         
@@ -433,7 +477,7 @@ namespace VendingMachineLibrary.Tests.Library
         public void Get_Price_Of_Empty_Catalogue()
         {
             ICatalogue catalogue = new SimpleCatalogue();
-            decimal price = catalogue.PriceOfFullCatalogue();
+            decimal price = catalogue.GetPriceOfFullCatalogue();
             Assert.That(price.Equals(0));
         }
         
@@ -450,7 +494,7 @@ namespace VendingMachineLibrary.Tests.Library
                 IItem fakeItem = new FakeItemWithPrice();
                 catalogue.AddItem(fakeItem);
             }
-            decimal price = catalogue.PriceOfFullCatalogue();
+            decimal price = catalogue.GetPriceOfFullCatalogue();
             
             Assert.That(price.Equals(finalPrice));
         }
@@ -502,10 +546,13 @@ namespace VendingMachineLibrary.Tests.Library
     public class FakeVendingMachine : IVendingMachineExternal, IVendingMachineInternal
     {
         public Action<decimal> WalletValueChanged { get; set; }
-        public Action<ICatalogue> CatalogueValueChanged { get; set; }
+        public Action WalletUpdated { get; set; }
+        public Action<List<ICatalogueItem>> CatalogueValueChanged { get; set; }
+        public Action CatalogueUpdated { get; set; }
+
         public void CatalogueChanged(ICatalogue currentCatalogue)
         {
-            CatalogueValueChanged?.Invoke(currentCatalogue);
+            CatalogueValueChanged?.Invoke(currentCatalogue.GetCatalogueItems());
         }
 
         public void WalletChanged(decimal currentValue)

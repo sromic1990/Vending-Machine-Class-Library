@@ -1,11 +1,10 @@
 using System.Collections.Generic;
+using VendingMachineLibrary.Abstracts;
 
-namespace VendingMachineLibrary.Abstracts
+namespace VendingMachineLibrary.PublicInterfaces
 {
-    public interface IPurchase
+    public interface IPurchaseInterface
     {
-        void Setup(ICatalogue catalogue, IWallet wallet);
-
         IItem PurchaseItem(int index);
         IItem PurchaseItem(IItem item);
         List<IItem> PurchaseItem(int index, int quantity);

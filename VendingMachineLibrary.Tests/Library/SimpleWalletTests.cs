@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using VendingMachineLibrary.Abstracts;
 using VendingMachineLibrary.Exceptions;
@@ -12,13 +13,17 @@ namespace VendingMachineLibrary.Tests.Library
         [Test]
         public void Add_In_Balance_Raises_Event()
         {
-            SimpleWallet wallet = new SimpleWallet();
+            //Arrange
+            IWallet wallet = new SimpleWallet();
+            
+            //Act
             decimal walletBalance = 0;
             IVendingMachineInternal machineInternal = new FakeVendingMachineInternal();
             wallet.Init(machineInternal);
             ((IVendingMachineExternal)machineInternal).WalletValueChanged += balance => { walletBalance = balance;};
             wallet.Add(10);
             
+            //Assert
             Assert.That(walletBalance.Equals(10));
         }
         
@@ -34,6 +39,17 @@ namespace VendingMachineLibrary.Tests.Library
             wallet.Subtract(5);
             
             Assert.That(walletBalance.Equals(5));
+        }
+
+        [Test]
+        public void Negative_Add_To_Wallet()
+        {
+            IWallet wallet = new SimpleWallet();
+            var exception = Assert.Throws<NegativeAdditionException>(() =>
+            {
+                wallet.Add(-1);
+            });
+            Assert.That(exception.GetType() == typeof(NegativeAdditionException));
         }
         
         [Test]
@@ -91,7 +107,10 @@ namespace VendingMachineLibrary.Tests.Library
     public class FakeVendingMachineInternal : IVendingMachineInternal, IVendingMachineExternal
     {
         public Action<decimal> WalletValueChanged { get; set; }
-        public Action<ICatalogue> CatalogueValueChanged { get; set; }
+        public Action WalletUpdated { get; set; }
+        public Action<List<ICatalogueItem>> CatalogueValueChanged { get; set; }
+        public Action CatalogueUpdated { get; set; }
+
         public void CatalogueChanged(ICatalogue currentCatalogue)
         {
             throw new NotImplementedException();

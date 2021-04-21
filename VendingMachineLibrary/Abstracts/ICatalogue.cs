@@ -9,14 +9,19 @@ namespace VendingMachineLibrary.Abstracts
         void AddItem(IItem item);
         void AddItem(ICatalogueItem item);
         IItem SubtractItem(IItem item);
-        List<IItem> SubtractItems(IItem item, int quantity);
         IItem SubtractItem(int index);
-        List<IItem> SubtractItem(int index, int quantity);
+        List<IItem> SubtractItems(IItem item, int quantity);
+        List<IItem> SubtractItems(int index, int quantity);
         bool ContainsItem(IItem item);
         int GetItemsCount(IItem item);
         int ItemsThatCanBeBought(IItem item, decimal amount);
-        decimal PriceOfAllItems(IItem item);
-        decimal PriceOfFullCatalogue();
+        int ItemsThatCanBeBought(int index, decimal amount);
+        decimal GetPriceOfAllItemsOfType(IItem item);
+        decimal GetPriceOfFullCatalogue();
+        decimal GetPriceOfItem(IItem item);
+        decimal GetPriceOfItem(int index);
+        decimal GetPriceOfItem(int index, int quantity);
+        decimal GetPriceOfItem(IItem item, int quantity);
         int GetItemIndex(IItem item);
     }
 }

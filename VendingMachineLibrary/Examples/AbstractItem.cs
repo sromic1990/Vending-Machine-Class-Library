@@ -1,6 +1,6 @@
 using VendingMachineLibrary.Abstracts;
 
-namespace VendingMachineLibrary.Library
+namespace VendingMachineLibrary.Examples
 {
     public abstract class AbstractItem : IItem
     {

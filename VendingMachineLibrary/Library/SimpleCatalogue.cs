@@ -9,7 +9,7 @@ namespace VendingMachineLibrary.Library
     {
         public SimpleCatalogue()
         {
-            Items = new List<ICatalogueItem>();
+            Reset();
         }
         
         #region SETUP AND INITIALIZATION
@@ -17,6 +17,11 @@ namespace VendingMachineLibrary.Library
         public void Init(IVendingMachineInternal vendingMachineInternal)
         {
             _vendingMachine = vendingMachineInternal;
+        }
+
+        public void Reset()
+        {
+            Items = new List<ICatalogueItem>();
         }
         
         private List<ICatalogueItem> _items;
@@ -108,9 +113,13 @@ namespace VendingMachineLibrary.Library
 
         public IItem SubtractItem(int index)
         {
-            if (Items == null || Items.Count == 0 || index > Items.Count - 1)
+            if (Items == null || Items.Count == 0 )
             {
-                throw new ItemMismatchException();
+                throw new EmptyContainerException();
+            }
+            else if (index > Items.Count - 1)
+            {
+                throw new ItemNotFoundException();
             }
             else
             {
@@ -119,7 +128,7 @@ namespace VendingMachineLibrary.Library
             }
         }
 
-        public List<IItem> SubtractItem(int index, int quantity)
+        public List<IItem> SubtractItems(int index, int quantity)
         {
             if (Items == null || Items.Count == 0)
             {
@@ -182,18 +191,38 @@ namespace VendingMachineLibrary.Library
         #region BUYING ITEMS RELATED INFORMATION
         public int ItemsThatCanBeBought(IItem item, decimal amount)
         {
-            if (!ContainsItem(item))
+            if (Items == null || Items.Count == 0)
             {
-                throw new ItemMismatchException();
+                return 0;
+            }
+            else if (!ContainsItem(item))
+            {
+                return 0;
             }
             else
             {
                 int index = GetItemIndex(item);
+                return ItemsThatCanBeBought(index, amount);
+            }
+        }
+
+        public int ItemsThatCanBeBought(int index, decimal amount)
+        {
+            if (Items == null || Items.Count == 0)
+            {
+                return 0;
+            }
+            else if(index > Items.Count - 1)
+            {
+                return 0;
+            }
+            else
+            {
                 return Items[index].GetTotalNumberForAGivenPrice(amount);
             }
         }
 
-        public decimal PriceOfAllItems(IItem item)
+        public decimal GetPriceOfAllItemsOfType(IItem item)
         {
             if (Items == null || Items.Count == 0)
             {
@@ -211,7 +240,7 @@ namespace VendingMachineLibrary.Library
             }
         }
 
-        public decimal PriceOfFullCatalogue()
+        public decimal GetPriceOfFullCatalogue()
         {
             decimal priceOfFullCatalogue = 0;
 
@@ -222,6 +251,82 @@ namespace VendingMachineLibrary.Library
             
             return priceOfFullCatalogue;
         }
+
+        public decimal GetPriceOfItem(IItem item)
+        {
+            if (Items == null || Items.Count == 0)
+            {
+                throw new EmptyContainerException();
+            }
+            else if (!ContainsItem(item))
+            {
+                throw new ItemMismatchException();
+            }
+            else
+            {
+                int index = GetItemIndex(item);
+                return GetPriceOfItem(index);
+            }
+        }
+
+        public decimal GetPriceOfItem(int index)
+        {
+            if (Items == null || Items.Count == 0)
+            {
+                throw new EmptyContainerException();
+            }
+            else if (index > Items.Count - 1)
+            {
+                throw new ItemNotFoundException();
+            }
+            else
+            {
+                return Items[index].Items[0].Price;
+            }
+        }
+
+        public decimal GetPriceOfItem(int index, int quantity)
+        {
+            if (Items == null || Items.Count == 0)
+            {
+                throw new EmptyContainerException();
+            }
+            else if (index > Items.Count - 1)
+            {
+                throw new ItemNotFoundException();
+            }
+            else if (quantity >= Items[index].Quantity)
+            {
+                throw new ItemNotFoundException();
+            }
+            else
+            {
+                decimal price = 0;
+                for (int i = 0; i < quantity; i++)
+                {
+                    price += Items[index].Items[i].Price;
+                }
+                return price;
+            }
+        }
+
+        public decimal GetPriceOfItem(IItem item, int quantity)
+        {
+            if (Items == null || Items.Count == 0)
+            {
+                throw new EmptyContainerException();
+            }
+            else if (!ContainsItem(item))
+            {
+                throw new ItemNotFoundException();
+            }
+            else
+            {
+                int index = GetItemIndex(item);
+                return GetPriceOfItem(index, quantity);
+            }
+        }
+
         #endregion
 
         #region GET ITEMS AND ITEM INDEX

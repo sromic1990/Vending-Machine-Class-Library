@@ -20,12 +20,17 @@ namespace VendingMachineLibrary.Library
         
         public SimpleWallet()
         {
-            Balance = 0;
+            Reset();
         }
 
         public void Init(IVendingMachineInternal vendingMachineInternal)
         {
             _vendingMachineInternal = vendingMachineInternal;
+        }
+
+        public void Reset()
+        {
+            Balance = 0;
         }
 
         public decimal GetBalance()
@@ -35,6 +40,11 @@ namespace VendingMachineLibrary.Library
 
         public void Add(decimal value)
         {
+            if (value < 0)
+            {
+                throw new NegativeAdditionException();
+            }
+            
             Balance += value;
         }
 

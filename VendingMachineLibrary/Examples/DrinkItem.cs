@@ -1,4 +1,4 @@
-namespace VendingMachineLibrary.Library
+namespace VendingMachineLibrary.Examples
 {
     public abstract class DrinkItem : AbstractItem
     {
