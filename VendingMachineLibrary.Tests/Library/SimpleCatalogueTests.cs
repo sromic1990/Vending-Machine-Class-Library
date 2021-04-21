@@ -39,7 +39,7 @@ namespace VendingMachineLibrary.Tests.Library
         public void Check_For_A_Non_Existent_Item_In_Non_Empty_Catalogue()
         {
             IItem item1 = new FakeItem();
-            IItem item2 = new FakeItem();
+            IItem item2 = new FakeItemWithPrice();
             SimpleCatalogue catalogue = new SimpleCatalogue();
             catalogue.AddItem(item1);
             Assert.That(catalogue.ContainsItem(item2).Equals(false));
@@ -101,7 +101,7 @@ namespace VendingMachineLibrary.Tests.Library
             ICatalogue catalogue = new SimpleCatalogue();
             IItem fakeItem = new FakeItem();
             catalogue.AddItem(fakeItem);
-            IItem fakeItem2 = new FakeItem();
+            IItem fakeItem2 = new FakeItemWithPrice();
             var exception = Assert.Throws<ItemMismatchException>(() =>
             {
                 catalogue.SubtractItem(fakeItem2);
@@ -343,7 +343,7 @@ namespace VendingMachineLibrary.Tests.Library
         {
             ICatalogue catalogue = new SimpleCatalogue();
             IItem item = new FakeItem();
-            IItem item2 = new FakeItem();
+            IItem item2 = new FakeItemWithPrice();
             catalogue.AddItem(item);
             var exception = Assert.Throws<ItemMismatchException>(() =>
             {
@@ -536,7 +536,7 @@ namespace VendingMachineLibrary.Tests.Library
             ICatalogue catalogue = new SimpleCatalogue();
             IItem item = new FakeItem();
             catalogue.AddItem(item);
-            IItem item2 = new FakeItem();
+            IItem item2 = new FakeItemWithPrice();
 
             var exception = Assert.Throws<ItemMismatchException>(() =>
             {
@@ -592,7 +592,7 @@ namespace VendingMachineLibrary.Tests.Library
             ICatalogue catalogue = new SimpleCatalogue();
             IItem item = new FakeItem();
             catalogue.AddItem(item);
-            IItem item2 = new FakeItem();
+            IItem item2 = new FakeItemWithPrice();
 
             var exception = Assert.Throws<ItemNotFoundException>(() =>
             {
@@ -866,13 +866,13 @@ namespace VendingMachineLibrary.Tests.Library
             }
         }
 
-        public string GetItemType()
+        public Type GetItemType()
         {
             if (Items == null || Items.Count == 0)
             {
                 throw new EmptyContainerException();
             }
-            return Items[0].GetType().Name;
+            return Items[0].GetType();
         }
         
         public decimal GetTotalPrice()

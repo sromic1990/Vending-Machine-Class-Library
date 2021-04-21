@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using VendingMachineLibrary.Abstracts;
 using VendingMachineLibrary.Exceptions;
@@ -24,7 +25,7 @@ namespace VendingMachineLibrary.Library
             else
             {
                 IItem containerItem = _items[0];
-                if (item.GetType().Name == containerItem.GetType().Name)
+                if (item.GetType() == containerItem.GetType())
                 {
                     AddItem(item, quantity);
                 }
@@ -95,13 +96,13 @@ namespace VendingMachineLibrary.Library
             }
         }
 
-        public string GetItemType()
+        public System.Type GetItemType()
         {
             if (Items == null || Items.Count == 0)
             {
                 throw new EmptyContainerException();
             }
-            return Items[0].GetType().Name;
+            return Items[0].GetType();
         }
 
         public decimal GetPriceOfQuantity(int quantity)

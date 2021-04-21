@@ -3,11 +3,20 @@ using System.Collections.Generic;
 using VendingMachineClient.Dependency;
 using VendingMachineClient.Items;
 using VendingMachineLibrary.Abstracts;
+using VendingMachineLibrary.Exceptions;
 
 namespace VendingMachineClient
 {
     public class Client
-    { 
+    {
+        private static List<Type> _itemsInSystem = new List<Type>()
+        {
+            typeof(Burger), typeof(MeatBall), typeof(Water), typeof(SoftDrink), typeof(Soda), typeof(Pistol), typeof(Sword),
+            typeof(LightSaber)
+        };
+
+        private static List<Type> _itemsInGame = new List<Type>();
+        
         public static void Main(string[] args)
         {
             IVendingMachine machine = ResolveDependency();
@@ -15,7 +24,7 @@ namespace VendingMachineClient
             InitialTopUpWallet(machine, 20);
             CreateInitialCatalogue(machine);
 
-            AttachWalletDisplay(machine);
+            // AttachWalletDisplay(machine);
             AttachCatalogueDisplay(machine);
 
             GetInput(machine);
@@ -39,6 +48,8 @@ namespace VendingMachineClient
             AddSoda(machine, 250);
             AddPistol(machine, 75);
             AddSword(machine, 200);
+            AddSoftDrink(machine, 350);
+            AddLightSaber(machine, 10);
         }
                 
         
@@ -97,7 +108,7 @@ namespace VendingMachineClient
             {
                 string baseType = GetBaseType(catalogueItems[i].Items[0]);
                 
-                String catalogueItem = $"{(i + 1)}. {catalogueItems[i].GetItemType()} ({baseType}) # {catalogueItems[i].Quantity}  1/All $ {catalogueItems[i].GetPriceOfQuantity(1)}/ $ {catalogueItems[i].GetTotalPrice()}";
+                String catalogueItem = $"{(i + 1)}. {catalogueItems[i].GetItemType().Name} ({baseType}) # {catalogueItems[i].Quantity}  1/All $ {catalogueItems[i].GetPriceOfQuantity(1)}/ $ {catalogueItems[i].GetTotalPrice()}";
                 Console.WriteLine(catalogueItem);
             }
         }
@@ -128,36 +139,78 @@ namespace VendingMachineClient
         {
             Burger burger = new Burger();
             machine.AddItem(burger, amount);
+            if (!_itemsInGame.Contains(typeof(Burger)))
+            {
+                _itemsInGame.Add(typeof(Burger));
+            }
         }
-        
         private static void AddMeatBall(IVendingMachine machine, int amount)
         {
             MeatBall meatBall = new MeatBall();
             machine.AddItem(meatBall, amount);
+            if (!_itemsInGame.Contains(typeof(MeatBall)))
+            {
+                _itemsInGame.Add(typeof(MeatBall));
+            }
         }
         
+        private static void AddSoftDrink(IVendingMachine machine, int amount)
+        {
+            SoftDrink softDrink = new SoftDrink();
+            machine.AddItem(softDrink, amount);
+            if (!_itemsInGame.Contains(typeof(SoftDrink)))
+            {
+                _itemsInGame.Add(typeof(SoftDrink));
+            }
+        }
         private static void AddWater(IVendingMachine machine, int amount)
         {
             Water water = new Water();
             machine.AddItem(water, amount);
+            if (!_itemsInGame.Contains(typeof(Water)))
+            {
+                _itemsInGame.Add(typeof(Water));
+            }
         }
-        
         private static void AddSoda(IVendingMachine machine, int amount)
         {
-            Soda soda = new Soda();
-            machine.AddItem(soda, amount);
+            for (int i = 0; i < amount; i++)
+            {
+                Soda soda = new Soda();
+                machine.AddItem(soda);
+            }
+            if (!_itemsInGame.Contains(typeof(Soda)))
+            {
+                _itemsInGame.Add(typeof(Soda));
+            }
         }
         
         private static void AddPistol(IVendingMachine machine, int amount)
         {
             Pistol pistol = new Pistol();
             machine.AddItem(pistol, amount);
+            if (!_itemsInGame.Contains(typeof(Pistol)))
+            {
+                _itemsInGame.Add(typeof(Pistol));
+            }
         }
-        
         private static void AddSword(IVendingMachine machine, int amount)
         {
             Sword sword = new Sword();
             machine.AddItem(sword, amount);
+            if (!_itemsInGame.Contains(typeof(Sword)))
+            {
+                _itemsInGame.Add(typeof(Sword));
+            }
+        }
+        private static void AddLightSaber(IVendingMachine machine, int amount)
+        {
+            LightSaber lightSaber = new LightSaber();
+            machine.AddItem(lightSaber, amount);
+            if (!_itemsInGame.Contains(typeof(LightSaber)))
+            {
+                _itemsInGame.Add(typeof(LightSaber));
+            }
         }
 
 
@@ -169,19 +222,106 @@ namespace VendingMachineClient
                 DisplayWalletBalance(machine);
                 DisplayCurrentCatalogue(machine);
 
-                Console.WriteLine("Press 0 to Top Up Balance");
+                Console.WriteLine("Enter 0 to Top Up Balance");
                 int catalogueCount = machine.GetCurrentCatalogue().Count;
-                Console.WriteLine($"Press 1 through {catalogueCount} to buy an item");
-                Console.WriteLine("Press anything else to cancel");
+                Console.WriteLine($"Enter 1 through {catalogueCount} to buy an item");
+                Console.WriteLine($"Enter 'Add' to add an item to the catalogue");
+                Console.WriteLine($"Enter 'New' to add a NEW item to the catalogue");
+                Console.WriteLine("Enter anything else to cancel");
                 string response = Console.ReadLine();
-                
-                
-                Console.WriteLine("Press Y to continue, else anything else to quit");
+                int responseInt;
+                if (int.TryParse(response, out responseInt))
+                {
+                    if (responseInt == 0)
+                    {
+                        AddBalance(machine);
+                    }
+                    else if (responseInt > 0 && responseInt < catalogueCount)
+                    {
+                        BuyItem(machine, responseInt);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Wrong Input!");
+                        continue;
+                    }
+                }
+                else
+                {
+                    if (string.Equals(response , "Add", StringComparison.OrdinalIgnoreCase))
+                    {
+                        //Add
+                        Console.WriteLine("+++++++ADD MENU++++++++");
+                        AddItem(machine);
+                    }
+                    else if (string.Equals(response , "New", StringComparison.OrdinalIgnoreCase))
+                    {
+                        //New
+                        Console.WriteLine("*******NEW MENU********");
+                        AddNewItem(machine);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Cancelled");
+                        break;
+                    }
+                }
+                Console.WriteLine("Enter Y to continue, else anything else to quit");
                 response = Console.ReadLine();
                 canContinue = response == "Y" || response == "y";
             } while (canContinue);
             
             Console.WriteLine("Thank You!");
+        }
+        
+        private static void AddBalance(IVendingMachine machine)
+        {
+            bool response = true;
+            while (response)
+            {
+                Console.WriteLine("Enter amount to top up Wallet: ");
+                string amount = Console.ReadLine();
+                decimal topUp;
+                if (decimal.TryParse(amount, out topUp))
+                {
+                    try
+                    {
+                        machine.TopUpWallet(topUp);
+                        response = false;
+                    }
+                    catch (NegativeAdditionException)
+                    {
+                        response = true;
+                        Console.WriteLine("Wrong Input! Please try again");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Wrong Input! Please try again");
+                }
+            }
+            GetInput(machine);
+        }
+
+        private static void BuyItem(IVendingMachine machine, int index)
+        {
+            int actualIndex = index - 1;
+            
+            GetInput(machine);
+        }
+
+        private static void AddItem(IVendingMachine machine)
+        {
+            GetInput(machine);
+        }
+
+        private static void AddNewItem(IVendingMachine machine)
+        {
+            if (_itemsInGame.Count == _itemsInSystem.Count)
+            {
+                Console.WriteLine("No New Items To Add. All items are already in game");    
+            }
+            GetInput(machine);
         }
     }
 }

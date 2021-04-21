@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using VendingMachineLibrary.Abstracts;
 using VendingMachineLibrary.Dependency;
@@ -46,18 +47,18 @@ namespace VendingMachineLibrary.Library
         #endregion
 
         #region ADD ITEMS
-        public void AddItem(IItem item)
+        public void AddItem(IItem item, int quantity = 1)
         {
             if (Items.Count == 0 || !ContainsItem(item))
             {
                 ICatalogueItem catalogueItem = VendingMachineDependency.GetBlankItem();
-                catalogueItem.Add(item);
+                catalogueItem.Add(item, quantity);
                 AddItem(catalogueItem);
             }
             else
             {
                 int index = GetItemIndex(item);
-                Items[index].Add(item);
+                Items[index].Add(item, quantity);
                 ListChanged();
             }
         }
@@ -88,6 +89,10 @@ namespace VendingMachineLibrary.Library
                 {
                     int index = GetItemIndex(item);
                     returnItem = Items[index].SubtractItem(item);
+                    if (Items[index].Quantity == 0)
+                    {
+                        Items.RemoveAt(index);
+                    }
                 }
             }
             ListChanged();
@@ -175,7 +180,7 @@ namespace VendingMachineLibrary.Library
             {
                 if (Items[i].Quantity > 0)
                 {
-                    if (Items[i].Equals(item))
+                    if (Items[i].GetItemType() == item.GetType())
                     {
                         return true;
                     }
@@ -359,8 +364,7 @@ namespace VendingMachineLibrary.Library
             {
                 throw new ItemMismatchException();
             }
-            
-            return Items.FindIndex(a => a.GetItemType() == item.GetType().Name);
+            return Items.FindIndex(a => a.GetItemType() == item.GetType());
         }
         #endregion
     }

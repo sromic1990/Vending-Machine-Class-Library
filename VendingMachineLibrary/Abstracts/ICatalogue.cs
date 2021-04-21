@@ -6,7 +6,7 @@ namespace VendingMachineLibrary.Abstracts
     {
         void Setup(List<ICatalogueItem> catalogue);
         List<ICatalogueItem> GetCatalogueItems();
-        void AddItem(IItem item);
+        void AddItem(IItem item, int quantity = 1);
         void AddItem(ICatalogueItem item);
         IItem SubtractItem(IItem item);
         IItem SubtractItem(int index);

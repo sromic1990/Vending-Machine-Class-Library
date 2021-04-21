@@ -67,11 +67,14 @@ namespace VendingMachineLibrary.Library
             return _catalogue.GetCatalogueItems();
         }
 
-        public void AddItem(IItem item, int quantity = 1)
+        public void AddItem(IItem item)
         {
-            ICatalogueItem catalogueItem = VendingMachineDependency.GetBlankItem();
-            catalogueItem.Add(item, quantity);
-            _catalogue.AddItem(catalogueItem);
+            _catalogue.AddItem(item);
+        }
+        
+        public void AddItem(IItem item, int quantity)
+        {
+            _catalogue.AddItem(item, quantity);
         }
 
         public void AddItems(List<IItem> items)
