@@ -42,7 +42,7 @@ namespace VendingMachineLibrary.Library
         {
             if (Balance < value)
             {
-                throw new SubtractionFromLesserQuantity(value);
+                throw new SubtractionFromLesserQuantityException(value);
             }
 
             Balance -= value;

@@ -55,8 +55,8 @@ namespace VendingMachineLibrary.Tests.Library
         public void Subtract_From_Empty_Wallet()
         {
             SimpleWallet wallet = new SimpleWallet();
-            var exception = Assert.Throws<SubtractionFromLesserQuantity>(() => { wallet.Subtract(10);});
-            Assert.That(exception.GetType() == typeof(SubtractionFromLesserQuantity));
+            var exception = Assert.Throws<SubtractionFromLesserQuantityException>(() => { wallet.Subtract(10);});
+            Assert.That(exception.GetType() == typeof(SubtractionFromLesserQuantityException));
         }
 
         [Test]

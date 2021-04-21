@@ -40,7 +40,7 @@ namespace VendingMachineLibrary.Library
         {
             if (quantity > Quantity)
             {
-                throw new SubtractionFromLesserQuantity(quantity);
+                throw new SubtractionFromLesserQuantityException(quantity);
             }
             else
             {

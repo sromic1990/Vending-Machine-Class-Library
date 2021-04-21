@@ -65,7 +65,7 @@ namespace VendingMachineLibrary.Tests.Library
         {
             SimpleCatalogueItem catalogueItem = new SimpleCatalogueItem();
 
-            var exception = Assert.Throws<SubtractionFromLesserQuantity>(() =>
+            var exception = Assert.Throws<SubtractionFromLesserQuantityException>(() =>
             {
                 catalogueItem.SubtractItem(1);
             });
@@ -79,7 +79,7 @@ namespace VendingMachineLibrary.Tests.Library
             FakeItem1 item1 = new FakeItem1();
             catalogueItem.Add(item1, 10);
 
-            var exception = Assert.Throws<SubtractionFromLesserQuantity>(() =>
+            var exception = Assert.Throws<SubtractionFromLesserQuantityException>(() =>
             {
                 catalogueItem.SubtractItem(20);
             });
