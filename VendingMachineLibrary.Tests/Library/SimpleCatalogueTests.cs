@@ -136,6 +136,21 @@ namespace VendingMachineLibrary.Tests.Library
             
             Assert.That(exception.GetType() == typeof(EmptyContainerException));
         }
+        
+        [Test]
+        public void Subtract_Index_Greater_Than_Catalogue_Size()
+        {
+            ICatalogue catalogue = new SimpleCatalogue();
+            IItem fakeItem = new FakeItem();
+            catalogue.AddItem(fakeItem);
+
+            var exception = Assert.Throws<ItemNotFoundException>(() =>
+            {
+                catalogue.SubtractItem(10);
+            });
+            
+            Assert.That(exception.GetType() == typeof(ItemNotFoundException));
+        }
 
         [Test]
         public void Subtract_Valid_index_From_A_Catalogue()
@@ -541,6 +556,192 @@ namespace VendingMachineLibrary.Tests.Library
             
             Assert.That(index.Equals(1));
         }
+
+        [Test]
+        public void Get_Price_Of_Item_In_Empty_Catalogue()
+        {
+            ICatalogue catalogue = new SimpleCatalogue();
+            IItem item = new FakeItem();
+
+            var exception = Assert.Throws<EmptyContainerException>(() =>
+            {
+                catalogue.GetPriceOfItem(item);
+            });
+            
+            Assert.That(exception.GetType() == typeof(EmptyContainerException));
+        }
+        
+        [Test]
+        public void Get_Price_Of_Index_In_Empty_Catalogue()
+        {
+            ICatalogue catalogue = new SimpleCatalogue();
+
+            var exception = Assert.Throws<EmptyContainerException>(() =>
+            {
+                catalogue.GetPriceOfItem(0);
+            });
+            
+            Assert.That(exception.GetType() == typeof(EmptyContainerException));
+        }
+        
+        [Test]
+        public void Get_Price_Of_Item_In_Catalogue_Not_Containing_It()
+        {
+            ICatalogue catalogue = new SimpleCatalogue();
+            IItem item = new FakeItem();
+            catalogue.AddItem(item);
+            IItem item2 = new FakeItem();
+
+            var exception = Assert.Throws<ItemNotFoundException>(() =>
+            {
+                catalogue.GetPriceOfItem(item2);
+            });
+            
+            Assert.That(exception.GetType() == typeof(ItemNotFoundException));
+        }
+        
+        [Test]
+        public void Get_Price_Of_Index_In_Catalogue_Not_Containing_It()
+        {
+            ICatalogue catalogue = new SimpleCatalogue();
+            IItem item = new FakeItem();
+            catalogue.AddItem(item);
+
+            var exception = Assert.Throws<ItemNotFoundException>(() =>
+            {
+                catalogue.GetPriceOfItem(1);
+            });
+            
+            Assert.That(exception.GetType() == typeof(ItemNotFoundException));
+        }
+        
+        [Test]
+        public void Get_Price_Of_Item_In_Catalogue()
+        {
+            ICatalogue catalogue = new SimpleCatalogue();
+            IItem item = new FakeItemWithPrice();
+            catalogue.AddItem(item);
+            decimal price = catalogue.GetPriceOfItem(item);
+            
+            Assert.That(price.Equals(item.Price));
+        }
+        
+        [Test]
+        public void Get_Price_Of_Index_In_Catalogue()
+        {
+            ICatalogue catalogue = new SimpleCatalogue();
+            IItem item = new FakeItemWithPrice();
+            catalogue.AddItem(item);
+            decimal price = catalogue.GetPriceOfItem(0);
+            
+            Assert.That(price.Equals(item.Price));
+        }
+
+        [Test]
+        public void Get_Price_Of_Index_Quantity_From_Empty_Catalogue()
+        {
+            ICatalogue catalogue = new SimpleCatalogue();
+
+            var exception = Assert.Throws<EmptyContainerException>(() =>
+            {
+                catalogue.GetPriceOfItem(0, 100);
+            });
+            
+            Assert.That(exception.GetType() == typeof(EmptyContainerException));
+        }
+        
+        [Test]
+        public void Get_Price_Of_Index_Quantity_In_Catalogue_Not_Containing_It()
+        {
+            ICatalogue catalogue = new SimpleCatalogue();
+            IItem item = new FakeItem();
+            catalogue.AddItem(item);
+
+            var exception = Assert.Throws<ItemNotFoundException>(() =>
+            {
+                catalogue.GetPriceOfItem(1, 100);
+            });
+            
+            Assert.That(exception.GetType() == typeof(ItemNotFoundException));
+        }
+        
+        [Test]
+        public void Get_Price_Of_Index_Quantity_In_Catalogue_More_Than_Actual_Quantity()
+        {
+            ICatalogue catalogue = new SimpleCatalogue();
+            IItem item = new FakeItem();
+            catalogue.AddItem(item);
+
+            var exception = Assert.Throws<ItemNotFoundException>(() =>
+            {
+                catalogue.GetPriceOfItem(0, 100);
+            });
+            
+            Assert.That(exception.GetType() == typeof(ItemNotFoundException));
+        }
+        
+        [Test]
+        [TestCase(1, 1, 10)]
+        [TestCase(100, 10, 100)]
+        [TestCase(100, 100, 1000)]
+        public void Get_Price_Of_Index_Quantity_In_Catalogue(int initialQuantity, int quantity, decimal price)
+        {
+            ICatalogue catalogue = new SimpleCatalogue();
+            IItem item = new FakeItemWithPrice();
+            for (int i = 0; i < initialQuantity; i++)
+            {
+                catalogue.AddItem(item);
+            }
+            decimal priceUnderTest = catalogue.GetPriceOfItem(0, quantity);
+            Assert.That(price.Equals(priceUnderTest));
+        }
+        
+        [Test]
+        public void Get_Price_Of_Item_Quantity_From_Empty_Catalogue()
+        {
+            ICatalogue catalogue = new SimpleCatalogue();
+            IItem fakeItem = new FakeItem();
+            
+            var exception = Assert.Throws<EmptyContainerException>(() =>
+            {
+                catalogue.GetPriceOfItem(fakeItem, 100);
+            });
+            
+            Assert.That(exception.GetType() == typeof(EmptyContainerException));
+        }
+        
+        [Test]
+        public void Get_Price_Of_Item_Quantity_In_Catalogue_Not_Containing_It()
+        {
+            ICatalogue catalogue = new SimpleCatalogue();
+            IItem item = new FakeItem();
+            catalogue.AddItem(item);
+            IItem item2 = new FakeItem();
+
+            var exception = Assert.Throws<ItemNotFoundException>(() =>
+            {
+                catalogue.GetPriceOfItem(item2, 100);
+            });
+            
+            Assert.That(exception.GetType() == typeof(ItemNotFoundException));
+        }
+
+        [Test]
+        [TestCase(1, 1, 10)]
+        [TestCase(100, 10, 100)]
+        [TestCase(100, 100, 1000)]
+        public void Get_Price_Of_Item_Quantity_In_Catalogue(int initialQuantity, int quantity, decimal price)
+        {
+            ICatalogue catalogue = new SimpleCatalogue();
+            IItem item = new FakeItemWithPrice();
+            for (int i = 0; i < initialQuantity; i++)
+            {
+                catalogue.AddItem(item);
+            }
+            decimal priceUnderTest = catalogue.GetPriceOfItem(item, quantity);
+            Assert.That(price.Equals(priceUnderTest));
+        }
+        
     }
     
     public class FakeVendingMachine : IVendingMachineExternal, IVendingMachineInternal

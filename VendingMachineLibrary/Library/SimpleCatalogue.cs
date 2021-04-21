@@ -260,7 +260,7 @@ namespace VendingMachineLibrary.Library
             }
             else if (!ContainsItem(item))
             {
-                throw new ItemMismatchException();
+                throw new ItemNotFoundException();
             }
             else
             {
@@ -295,7 +295,7 @@ namespace VendingMachineLibrary.Library
             {
                 throw new ItemNotFoundException();
             }
-            else if (quantity >= Items[index].Quantity)
+            else if (quantity > Items[index].Quantity)
             {
                 throw new ItemNotFoundException();
             }
