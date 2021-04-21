@@ -241,6 +241,25 @@ namespace VendingMachineLibrary.Tests.Library
             }
             Assert.That(purchasableAmount.Equals(item.GetTotalNumberForAGivenPrice(givenMoney)));
         }
+        
+        [Test]
+        [TestCase(0, 100, 0)]
+        [TestCase(-1, 100, 0)]
+        [TestCase(100, -1, 0)]
+        [TestCase(10, 100, 100)]
+        [TestCase(100, 10, 100)]
+        [TestCase(10, 10, 100)]
+        public void Get_Price_When_List_Is_Empty(int initialQuantity, int priceOfQuantity, decimal result)
+        {
+            ICatalogueItem catalogueItem = new SimpleCatalogueItem();
+            IItem item = new FakeItem3();
+            for (int i = 0; i < initialQuantity; i++)
+            {
+                catalogueItem.Add(item);
+            }
+            decimal price = catalogueItem.GetPriceOfQuantity(priceOfQuantity);
+            Assert.That(price.Equals(result));
+        }
     }
 
     public class FakeItem1 : IItem
@@ -251,5 +270,10 @@ namespace VendingMachineLibrary.Tests.Library
     public class FakeItem2 : IItem
     {
         public decimal Price => (decimal) 201.16;
+    }
+    
+    public class FakeItem3 : IItem
+    {
+        public decimal Price => (decimal) 10;
     }
 }

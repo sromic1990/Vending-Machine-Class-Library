@@ -17,16 +17,18 @@ namespace VendingMachineLibrary.Library
 
         public IItem PurchaseItem(int index)
         {
+            IItem item;
             decimal price = Catalogue.GetPriceOfItem(index);
             if (Wallet.GetBalance() >= price)
             {
-                SubtractFromWallet(price);
-                return Catalogue.SubtractItem(index);
+                item = Catalogue.SubtractItem(index);
             }
             else
             {
                 throw new InsufficientBalanceException();
             }
+            SubtractFromWallet(price);
+            return item;
         }
 
         public IItem PurchaseItem(IItem item)
@@ -37,16 +39,18 @@ namespace VendingMachineLibrary.Library
 
         public List<IItem> PurchaseItem(int index, int quantity)
         {
+            List<IItem> items = new List<IItem>();
             decimal price = Catalogue.GetPriceOfItem(index, quantity);
             if (price <= Wallet.GetBalance())
             {
-                SubtractFromWallet(price);
-                return Catalogue.SubtractItems(index, quantity);
+                items = Catalogue.SubtractItems(index, quantity);
             }
             else
             {
                 throw new InsufficientBalanceException();
             }
+            SubtractFromWallet(price);
+            return items;
         }
 
         public List<IItem> PurchaseItem(IItem item, int quantity)

@@ -459,6 +459,8 @@ namespace VendingMachineLibrary.Tests.Library
             Assert.That(canBePurchased.Equals(purchasableAmount));
         }
 
+        
+
         [Test]
         [TestCase(100, 1000)]
         [TestCase(-1, 0)]
@@ -881,6 +883,11 @@ namespace VendingMachineLibrary.Tests.Library
                 price += _items[i].Price;
             }
             return price;
+        }
+
+        public decimal GetPriceOfQuantity(int quantity)
+        {
+            throw new NotImplementedException();
         }
 
         public int GetTotalNumberForAGivenPrice(decimal price)

@@ -12,6 +12,7 @@ namespace VendingMachineLibrary.Abstracts
         bool Equals(IItem item);
         string GetItemType();
         decimal GetTotalPrice();
+        decimal GetPriceOfQuantity(int quantity);
         int GetTotalNumberForAGivenPrice(decimal price);
     }
 }

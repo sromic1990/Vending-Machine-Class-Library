@@ -31,8 +31,12 @@ namespace VendingMachineLibrary.Library
             set
             {
                 _items = value;
-                _vendingMachine?.CatalogueChanged(this);
             }
+        }
+
+        private void ListChanged()
+        {
+            _vendingMachine?.CatalogueChanged(this);
         }
 
         public void Setup(List<ICatalogueItem> catalogue)
@@ -54,18 +58,22 @@ namespace VendingMachineLibrary.Library
             {
                 int index = GetItemIndex(item);
                 Items[index].Add(item);
+                ListChanged();
             }
         }
 
         public void AddItem(ICatalogueItem item)
         {
             Items.Add(item);
+            ListChanged();
         }
         #endregion
 
         #region REMOVE ITEMS FROM CATALOGUE
         public IItem SubtractItem(IItem item)
         {
+            IItem returnItem;
+            
             if (Items == null || Items.Count == 0)
             {
                 throw new ItemMismatchException();
@@ -79,13 +87,17 @@ namespace VendingMachineLibrary.Library
                 else
                 {
                     int index = GetItemIndex(item);
-                    return Items[index].SubtractItem(item);
+                    returnItem = Items[index].SubtractItem(item);
                 }
             }
+            ListChanged();
+            return returnItem;
         }
 
         public List<IItem> SubtractItems(IItem item, int quantity)
         {
+            List<IItem> items = new List<IItem>();
+            
             if (Items == null || Items.Count == 0)
             {
                 throw new EmptyContainerException();
@@ -105,10 +117,12 @@ namespace VendingMachineLibrary.Library
                     }
                     else
                     {
-                        return Items[index].SubtractItem(quantity);
+                        items = Items[index].SubtractItem(quantity);
                     }
                 }
             }
+            ListChanged();
+            return items;
         }
 
         public IItem SubtractItem(int index)

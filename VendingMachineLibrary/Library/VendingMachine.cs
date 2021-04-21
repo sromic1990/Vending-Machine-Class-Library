@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using VendingMachineLibrary.Abstracts;
 using VendingMachineLibrary.Dependency;
-using VendingMachineLibrary.PublicInterfaces;
 
 namespace VendingMachineLibrary.Library
 {
-    public class VendingMachine : IVendingMachineInternal, IVendingMachineExternal, IWalletInterface, ICatalogueInterface, IPurchaseInterface
+    public class VendingMachine : IVendingMachine
     {
         #region CONSTRUCTOR
         public VendingMachine()
@@ -63,9 +62,16 @@ namespace VendingMachineLibrary.Library
             _catalogue.Setup(catalogue);
         }
 
-        public void AddItem(IItem item)
+        public List<ICatalogueItem> GetCurrentCatalogue()
         {
-            _catalogue.AddItem(item);
+            return _catalogue.GetCatalogueItems();
+        }
+
+        public void AddItem(IItem item, int quantity = 1)
+        {
+            ICatalogueItem catalogueItem = VendingMachineDependency.GetBlankItem();
+            catalogueItem.Add(item, quantity);
+            _catalogue.AddItem(catalogueItem);
         }
 
         public void AddItems(List<IItem> items)
@@ -102,10 +108,14 @@ namespace VendingMachineLibrary.Library
         {
             _wallet.Add(amount);
         }
+
+        public decimal GetWalletBalance()
+        {
+            return _wallet.GetBalance();
+        }
         #endregion
         
         #region PURCHASE INTERAFCE
-
         public IItem PurchaseItem(int index)
         {
             return _purchase.PurchaseItem(index);

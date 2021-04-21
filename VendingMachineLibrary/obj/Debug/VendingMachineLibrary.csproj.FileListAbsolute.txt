@@ -4,3 +4,12 @@
 /Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary/obj/Debug/VendingMachineLibrary.csproj.CoreCompileInputs.cache
 /Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary/obj/Debug/VendingMachineLibrary.dll
 /Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary/obj/Debug/VendingMachineLibrary.pdb
+/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary/bin/Debug/Castle.Core.dll
+/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary/bin/Debug/Moq.dll
+/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary/bin/Debug/System.Runtime.CompilerServices.Unsafe.dll
+/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary/bin/Debug/System.Threading.Tasks.Extensions.dll
+/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary/bin/Debug/Castle.Core.xml
+/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary/bin/Debug/Moq.xml
+/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary/bin/Debug/System.Runtime.CompilerServices.Unsafe.xml
+/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary/bin/Debug/System.Threading.Tasks.Extensions.xml
+/Users/souravchatterjee/GitRepos/VendingMachineSolution/VendingMachineLibrary/obj/Debug/VendingMachineLibrary.csproj.CopyComplete
