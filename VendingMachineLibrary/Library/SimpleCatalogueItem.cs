@@ -104,6 +104,41 @@ namespace VendingMachineLibrary.Library
             return Items[0].GetType().Name;
         }
 
+        public decimal GetTotalPrice()
+        {
+            decimal price = 0;
+            for (int i = 0; i < Items.Count; i++)
+            {
+                price += _items[i].Price;
+            }
+            return price;
+        }
+
+        public int GetTotalNumberForAGivenPrice(decimal price)
+        {
+            int index = -1;
+            decimal tempPrice = price;
+            
+            for (int i = 0; i < Items.Count; i++)
+            {
+                if (tempPrice <= 0)
+                {
+                    break;
+                }
+                else if (tempPrice < Items[i].Price)
+                {
+                    break;
+                }
+                else
+                {
+                    tempPrice -= Items[i].Price;
+                    index = i;
+                }
+            }
+
+            return index + 1;
+        }
+
         private int GetItemIndex(IItem item)
         {
             return Items.FindIndex(a => a == item);

@@ -204,15 +204,52 @@ namespace VendingMachineLibrary.Tests.Library
             
             Assert.That(!item.GetItemType().Equals(fakeItem2.GetType().Name));
         }
+
+        [Test]
+        [TestCase(0, 0)]
+        [TestCase(1, 100.58)]
+        [TestCase(10, 1005.8)]
+        [TestCase(-1, 0)]
+        public void Get_Total_Price_For_Some_Items(int quantity, decimal amount)
+        {
+            ICatalogueItem item = new SimpleCatalogueItem();
+            for (int i = 0; i < quantity; i++)
+            {
+                IItem fakeItem = new FakeItem1();
+                item.Add(fakeItem);
+            }
+            Assert.That(amount.Equals(item.GetTotalPrice()));
+        }
+
+        [Test]
+        [TestCase(0, 10000, 0)]
+        [TestCase(1, 10000000, 1)]
+        [TestCase(100, 100.58, 1)]
+        [TestCase(200, 98, 0)]
+        [TestCase(-1, -1, 0 )]
+        [TestCase(-1, 10000000, 0)]
+        [TestCase(200, 1006, 10)]
+        [TestCase(200, 1010, 10)]
+        [TestCase(200, 2012, 20)]
+        public void Get_Amount_Of_Item_You_Can_Purchase_With_Given_Money(int initialAmount, decimal givenMoney, int purchasableAmount)
+        {
+            ICatalogueItem item = new SimpleCatalogueItem();
+            for (int i = 0; i < initialAmount; i++)
+            {
+                IItem fakeItem = new FakeItem1();
+                item.Add(fakeItem);
+            }
+            Assert.That(purchasableAmount.Equals(item.GetTotalNumberForAGivenPrice(givenMoney)));
+        }
     }
 
     public class FakeItem1 : IItem
     {
-        public decimal Price { get; }
+        public decimal Price => (decimal) 100.58;
     }
 
     public class FakeItem2 : IItem
     {
-        public decimal Price { get; }
+        public decimal Price => (decimal) 201.16;
     }
 }
