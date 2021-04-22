@@ -123,6 +123,10 @@ namespace VendingMachineLibrary.Library
                     else
                     {
                         items = Items[index].SubtractItem(quantity);
+                        if (Items[index].Quantity == 0)
+                        {
+                            Items.RemoveAt(index);
+                        }
                     }
                 }
             }
