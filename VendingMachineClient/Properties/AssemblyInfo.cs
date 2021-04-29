@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("VendingMachineClient")]
+[assembly: AssemblyTitle("VendingMachineLibrary.Client")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("VendingMachineClient")]
+[assembly: AssemblyProduct("VendingMachineLibrary.Client")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("416E7CEC-ACFA-4B76-A477-C68AE5297B66")]
+[assembly: Guid("7879022E-58E3-48A3-9E9F-7AA25F59B814")]
 
 // Version information for an assembly consists of the following four values:
 //

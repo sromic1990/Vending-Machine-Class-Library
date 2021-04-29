@@ -1,0 +1,9 @@
+/Users/souravchatterjee/GitRepos/Vending-Machine-Class-Library/VendingMachineClient/bin/Debug/VendingMachineLibrary.Client.exe
+/Users/souravchatterjee/GitRepos/Vending-Machine-Class-Library/VendingMachineClient/bin/Debug/VendingMachineLibrary.Client.pdb
+/Users/souravchatterjee/GitRepos/Vending-Machine-Class-Library/VendingMachineClient/bin/Debug/VendingMachineClassLibrary.dll
+/Users/souravchatterjee/GitRepos/Vending-Machine-Class-Library/VendingMachineClient/bin/Debug/VendingMachineClassLibrary.pdb
+/Users/souravchatterjee/GitRepos/Vending-Machine-Class-Library/VendingMachineClient/obj/Debug/VendingMachineLibrary.Client.csprojAssemblyReference.cache
+/Users/souravchatterjee/GitRepos/Vending-Machine-Class-Library/VendingMachineClient/obj/Debug/VendingMachineLibrary.Client.csproj.CoreCompileInputs.cache
+/Users/souravchatterjee/GitRepos/Vending-Machine-Class-Library/VendingMachineClient/obj/Debug/VendingMachineLibrary.Client.csproj.CopyComplete
+/Users/souravchatterjee/GitRepos/Vending-Machine-Class-Library/VendingMachineClient/obj/Debug/VendingMachineLibrary.Client.exe
+/Users/souravchatterjee/GitRepos/Vending-Machine-Class-Library/VendingMachineClient/obj/Debug/VendingMachineLibrary.Client.pdb

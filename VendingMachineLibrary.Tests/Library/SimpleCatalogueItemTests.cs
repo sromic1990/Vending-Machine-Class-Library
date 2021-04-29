@@ -191,7 +191,7 @@ namespace VendingMachineLibrary.Tests.Library
             item.Add(fakeItem1);
             IItem fakeItem2 = new FakeItem1();
             
-            Assert.That(item.GetItemType().Equals(fakeItem2.GetType().Name));
+            Assert.That(item.GetItemType() == fakeItem2.GetType());
         }
 
         [Test]
